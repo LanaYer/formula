@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('/v1')->group(function () {
+    Route::prefix('boxes')->group(function () {
+        Route::get('/{id?}', '\App\Http\Controllers\Api\V1\BoxController@get');
+        Route::post('/create', '\App\Http\Controllers\Api\V1\BoxController@create');
+        Route::post('/delete', '\App\Http\Controllers\Api\V1\BoxController@delete');
+    });
+    Route::prefix('records')->group(function () {
+        Route::get('/{param}', '\App\Http\Controllers\Api\V1\RecordController@get');
+        Route::post('/create', '\App\Http\Controllers\Api\V1\RecordController@create');
+        Route::post('/delete', '\App\Http\Controllers\Api\V1\RecordController@delete');
+    });
 });
